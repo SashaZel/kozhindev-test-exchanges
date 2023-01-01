@@ -1,12 +1,12 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { TCurrency } from '../utils/types';
+import { TvalidCurrency } from '../utils/types';
 import { hitAPI } from '../api/API';
 
 export type TEndpoint = 'cbr' | 'moex';
 
 export interface IRate {
-    currencyCode: TCurrency;
+    currencyCode: TvalidCurrency;
     rateToRUB: number;
 }
 

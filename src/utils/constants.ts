@@ -1,6 +1,10 @@
-import { TCurrency } from './types';
+import { IRate } from '../store/currencySlice';
+import { Tmonth } from './types';
 
-export const ORDERED_LIST_OF_CURRENCIES: TCurrency[] = [
+export const RUB_RATE: IRate = { currencyCode: 'RUB', rateToRUB: 1 };
+
+export const ORDERED_LIST_OF_CURRENCIES = [
+    'RUB',
     'USD',
     'EUR',
     'CNY',
@@ -59,6 +63,7 @@ export const CURRENCIES_DICTIONARY_WITH_OF_PREFIX = {
     NOK: 'Норвежских крон',
     PLN: 'Польский злотый',
     RON: 'Румынский лей',
+    RUB: 'Российских рублей',
     XDR: 'СДР (специальные права заимствования)',
     SGD: 'Сингапурский доллар',
     TJS: 'Таджикских сомони',
@@ -73,3 +78,18 @@ export const CURRENCIES_DICTIONARY_WITH_OF_PREFIX = {
     KRW: 'Вон Республики Корея',
     JPY: 'Японских иен',
 };
+
+export const MONTHS_RUS = [
+    'янв.',
+    'фев.',
+    'марта',
+    'апр.',
+    'мая',
+    'июн.',
+    'июл.',
+    'авг.',
+    'сент.',
+    'окт.',
+    'нояб.',
+    'дек.',
+];
