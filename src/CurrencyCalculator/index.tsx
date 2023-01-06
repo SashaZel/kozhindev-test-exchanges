@@ -4,6 +4,7 @@ import { IRate } from '../store/currencySlice';
 import { RootState } from '../store/store';
 import { CURRENCIES_DICTIONARY_WITH_OF_PREFIX, ORDERED_LIST_OF_CURRENCIES, RUB_RATE } from '../utils/constants';
 import { currencyFromRUB, currencyToRUB } from '../utils/interratesCalculators';
+import { TvalidCurrency } from '../utils/types';
 import style from './CurrencyCalculator.module.scss';
 
 const checkInputForValidNumber = (
@@ -38,11 +39,12 @@ const getFormattedRatesListTwo = (rates: IRate[]): IRate[] => {
     return result;
 };
 
-type TvalidCurrency = (typeof ORDERED_LIST_OF_CURRENCIES)[number];
 const checkTypeOfCurrency = (curr: string): curr is TvalidCurrency => ORDERED_LIST_OF_CURRENCIES.includes(curr);
 
 export default function CurrencyCalculator() {
     const rates = useSelector((state: RootState) => state.currency.rates);
+    const isLoading = useSelector((state: RootState) => state.currency.isLoading);
+    const requestError = useSelector((state: RootState) => state.currency.requestError);
     const [inputOne, setInputOne] = React.useState('0');
     const [inputTwo, setInputTwo] = React.useState('0');
     const [currencyOne, setCurrencyOne] = React.useState('');
@@ -100,10 +102,14 @@ export default function CurrencyCalculator() {
         }
         setCurrencyOne(currencyCode);
         setExchangeRateOne(currencyRate.rateToRUB);
-        const calculateToRUB = currencyToRUB(Number(inputOne), currencyRate.rateToRUB);
-        const calculateFromRUB = String(currencyFromRUB(calculateToRUB, exchangeRateTwo));
-        setInputTwo(calculateFromRUB);
-        localStorage.setItem('currencyOne', currencyCode);
+        const calculateToRUB = currencyToRUB(Number(inputTwo), exchangeRateTwo);
+        const calculateFromRUB = String(currencyFromRUB(calculateToRUB, currencyRate.rateToRUB));
+        setInputOne(calculateFromRUB);
+        try {
+            localStorage.setItem('currencyOne', currencyCode);
+        } catch (error) {
+            console.error('localStorage is not available ' + String(error));
+        }
     };
 
     const handleSelectSecondCurrenncy = (currencyCode: TvalidCurrency) => {
@@ -113,15 +119,25 @@ export default function CurrencyCalculator() {
         }
         setCurrencyTwo(currencyCode);
         setExchangeRateTwo(currencyRate.rateToRUB);
-        const calculateToRUB = currencyToRUB(Number(inputTwo), currencyRate.rateToRUB);
-        const calculateFromRUB = String(currencyFromRUB(calculateToRUB, exchangeRateOne));
-        setInputOne(calculateFromRUB);
-        localStorage.setItem('currencyTwo', currencyCode);
+        const calculateToRUB = currencyToRUB(Number(inputOne), exchangeRateOne);
+        const calculateFromRUB = String(currencyFromRUB(calculateToRUB, currencyRate.rateToRUB));
+        setInputTwo(calculateFromRUB);
+        try {
+            localStorage.setItem('currencyTwo', currencyCode);
+        } catch (error) {
+            console.error('localStorage is not available ' + String(error));
+        }
     };
 
-    React.useEffect(() => {
-        const currencyFromLsOne = localStorage.getItem('currencyOne');
-        const currencyFromLsTwo = localStorage.getItem('currencyTwo');
+    React.useLayoutEffect(() => {
+        let currencyFromLsOne;
+        let currencyFromLsTwo;
+        try {
+            currencyFromLsOne = localStorage.getItem('currencyOne');
+            currencyFromLsTwo = localStorage.getItem('currencyTwo');
+        } catch (error) {
+            console.error('localStorage is not available ' + String(error));
+        }
         if (checkTypeOfCurrency(currencyFromLsOne)) {
             handleSelectFirstCurrenncy(currencyFromLsOne);
         } else {
@@ -132,38 +148,58 @@ export default function CurrencyCalculator() {
         } else {
             setExchangeRateTwo(formattedRatesListTwo[0].rateToRUB);
         }
-    }, []);
+    }, [rates]);
 
     return (
-        <div className={style.container}>
-            CurrencyCalculator.
-            <div className={style.curCal__form}>
-                The Form
-                <form>
+        <div className={style.calculator}>
+            <div className={isLoading ? style.spinner : style.spinnerDisabled}>
+                <div>
+                    <div className={style.ldsFacebook}>
+                        <div />
+                        <div />
+                        <div />
+                    </div>
+                </div>
+            </div>
+            <h2 className={style.calculator__header}>Калькулятор курсов</h2>
+            <form>
+                <div className={style.calculator__row}>
                     <input
                         type="text"
+                        className={style.calculator__input}
                         onChange={(e: React.BaseSyntheticEvent) => handleInputOne(e)}
                         value={inputOne}
                     />
                     <select
+                        className={style.calculator__select}
                         value={currencyOne}
                         onChange={(e) => handleSelectFirstCurrenncy(e.target.value)}
                     >
                         {listOfCurrenciesForSelectOne}
                     </select>
+                </div>
+                <div className={style.calculator__row}>
                     <input
                         type="text"
+                        className={style.calculator__input}
                         onChange={(e: React.BaseSyntheticEvent) => handleInputTwo(e)}
                         value={inputTwo}
                     />
                     <select
+                        className={style.calculator__select}
                         value={currencyTwo}
                         onChange={(e) => handleSelectSecondCurrenncy(e.target.value)}
                     >
                         {listOfCurrenciesForSelectTwo}
                     </select>
-                </form>
+                </div>
+            </form>
+            <div className={style.error}>
+                {requestError ? 'Внимание! Данные калькулятора устарели. ' + requestError : ''}
             </div>
+            <p className={style.calculator__note}>
+                *Согласно постановлению Центробанка России №12345 от 01 января 2021 года, все кросс-курсы подсчитываются через конвертацию в рубли.
+            </p>
         </div>
     );
 }

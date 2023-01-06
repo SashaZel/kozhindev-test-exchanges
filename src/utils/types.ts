@@ -3,39 +3,6 @@ import { MONTHS_RUS, ORDERED_LIST_OF_CURRENCIES } from './constants';
 export type TvalidCurrency = (typeof ORDERED_LIST_OF_CURRENCIES)[number];
 export type Tmonth = (typeof MONTHS_RUS)[number];
 
-// export type TCurrency =
-//     | 'AUD'
-//     | 'AZN'
-//     | 'GBP'
-//     | 'AMD'
-//     | 'BYN'
-//     | 'BGN'
-//     | 'BRL'
-//     | 'HUF'
-//     | 'HKD'
-//     | 'DKK'
-//     | 'USD'
-//     | 'EUR'
-//     | 'INR'
-//     | 'KZT'
-//     | 'CAD'
-//     | 'KGS'
-//     | 'CNY'
-//     | 'MDL'
-//     | 'NOK'
-//     | 'PLN'
-//     | 'RON'
-//     | 'RUB'
-//     | 'XDR'
-//     | 'SGD'
-//     | 'TJS'
-//     | 'TRY'
-//     | 'TMT'
-//     | 'UZS'
-//     | 'UAH'
-//     | 'CZK'
-//     | 'SEK'
-//     | 'CHF'
-//     | 'ZAR'
-//     | 'KRW'
-//     | 'JPY';
+export type TEndpoint = 'cbr' | 'moex';
+
+export type TSorting = 'default' | 'byCode' | 'byName' | 'byUSDrate' | 'byRUBrate' | 'byEuroRate' | 'byCNYrate';

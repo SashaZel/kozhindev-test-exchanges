@@ -1,0 +1,56 @@
+.footer {
+    margin: 1rem auto;
+    width: 90%;
+    max-width: 1280px;
+
+    &__title {
+        font-size: 1rem;
+        color: #78D2D8;
+    }
+
+    &__linksBlock {
+        margin-top: 1rem;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &__link {
+        display: block;
+        text-decoration: none;
+        color: #475346;
+        font-size: 1rem;
+    }
+
+    &__link:hover {
+        color: #78D2D8;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    
+    .footer {
+        display: flex;
+        justify-content: space-between;
+
+        &__linksBlock {
+            margin-top: 0;
+            width: 40%;
+        }
+    }
+}
+
+@media screen and (min-width: 1024px) {
+
+    .footer {
+
+        &__column {
+            width: 40%;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        &__linksBlock {
+            width: 70%;
+        }
+    }
+}

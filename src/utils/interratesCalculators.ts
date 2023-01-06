@@ -6,8 +6,7 @@ export function getMainCurRates(curList: IRate[]) {
     let usdToRub = 0;
     let eurToRub = 0;
     let cnyToRub = 0;
-    // eslint-disable-next-line no-plusplus
-    for (let i = 0; i < curList.length; i++) {
+    for (let i = 0; i < curList.length; i += 1) {
         if (curList[i].currencyCode === 'USD') {
             usdToRub = curList[i].rateToRUB;
         }

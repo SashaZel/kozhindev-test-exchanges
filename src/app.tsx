@@ -3,16 +3,18 @@ import { Provider } from 'react-redux';
 import { store } from './store/store';
 import Header from './Header';
 import Layout from './Layout';
+import Footer from './Footer';
 
-function App() {
+export default function App() {
     return (
-        <Provider store={store}>
-            <div>
-                <Header />
-                Great react setup from scratch without cra testing ts
-                <Layout />
-            </div>
-        </Provider>
+        <React.StrictMode>
+            <Provider store={store}>
+                <div>
+                    <Header />
+                    <Layout />
+                    <Footer />
+                </div>
+            </Provider>
+        </React.StrictMode>
     );
 }
-export default App;

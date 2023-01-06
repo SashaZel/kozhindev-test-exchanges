@@ -1,7 +1,126 @@
-.container {
-    margin: 0 auto;
-    background-color: aquamarine;
-    .curCal__form {
-        background-color: khaki;
+.calculator {
+    margin: 1rem auto;
+    padding: 1rem;
+    width: 90%;
+    max-width: 768px;
+    background-color: #30382E;
+    border-radius: 1rem;
+
+    &__header {
+        color: #78D2D8;
+    }
+
+    &__row {
+        margin-top: 8px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &__input {
+        display: block;
+        padding: 4px;
+        width: 40%;
+        background-color: #30382E;
+        color: #FB2B2F;
+        font-size: 1rem;
+        border: 2px solid #FB2B2F;
+        border-radius: 8px;
+    }
+
+    &__select {
+        display: block;
+        padding: 4px;
+        width: 50%;
+        background-color: #FF9192;
+        color: black;
+        font-size: 0.7rem;
+        font-weight: 600;
+        border: 2px solid #FF9192;
+        border-radius: 8px;
+    }
+
+    &__note {
+        margin-top: 16px;
+        color: #475346;
+        font-size: 0.7rem;
+        line-height: 1rem;
     }
 }
+
+.error {
+    color: #FB2B2F;
+    background-color: #30382E;
+}
+
+.spinner {
+    width: calc(90% - 2rem);
+    height: 11rem;
+    position: absolute;
+    display: grid;
+    place-items: center;
+    background-color: #30382ec3;
+}
+
+.spinnerDisabled {
+    display: none;
+}
+
+@media screen and (min-width: 1024px) {
+
+    .calculator {
+        position: absolute;
+        transform: translateY(-16rem) translateX(15%);
+        width: 32rem;
+    }
+
+    .spinner {
+        width: calc(100% - 2rem);
+        height: calc(100% - 2rem);
+    }
+}
+
+@media screen and (min-width: 1536px) {
+
+    .calculator {
+        transform: translateY(-16rem) translateX(33%);
+    }
+}
+
+/* ========== Loading spinner ======== */
+
+.ldsFacebook {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+  }
+  .ldsFacebook div {
+    display: inline-block;
+    position: absolute;
+    left: 8px;
+    width: 16px;
+    background: #78D2D8;
+    animation: ldsFacebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+  }
+  .ldsFacebook div:nth-child(1) {
+    left: 8px;
+    animation-delay: -0.24s;
+  }
+  .ldsFacebook div:nth-child(2) {
+    left: 32px;
+    animation-delay: -0.12s;
+  }
+  .ldsFacebook div:nth-child(3) {
+    left: 56px;
+    animation-delay: 0;
+  }
+  @keyframes ldsFacebook {
+    0% {
+      top: 8px;
+      height: 64px;
+    }
+    50%, 100% {
+      top: 24px;
+      height: 32px;
+    }
+  }

@@ -1,38 +1,81 @@
 import axios from 'axios';
-import { IRate, TEndpoint } from '../store/currencySlice';
+import { IRate } from '../store/currencySlice';
+import { TEndpoint } from '../utils/types';
 import { ORDERED_LIST_OF_CURRENCIES } from '../utils/constants';
 
-export async function hitCbrAPI() {
-    const result = { date: '', rates: [] };
+export async function hitCbrAPI(): Promise<{ date: string; rates: IRate[], requestError: string }> {
+    const result: { date: string; rates: IRate[], requestError: string } = { date: '', rates: [], requestError: '' };
     try {
         const response = await axios.get(
             'https://www.cbr-xml-daily.ru/daily_json.js',
         );
-        //console.log(response);
         result.date = response?.data?.Date ?? '';
         const listOfReceivedCurrencies = Object.keys(response?.data?.Valute);
-        // eslint-disable-next-line no-plusplus
-        for (let i = 0; i < ORDERED_LIST_OF_CURRENCIES.length; i++) {
+        for (let i = 0; i < ORDERED_LIST_OF_CURRENCIES.length; i += 1) {
             if (
                 listOfReceivedCurrencies.includes(ORDERED_LIST_OF_CURRENCIES[i])
             ) {
-                //const rateItem = {};
                 const currencyCode = ORDERED_LIST_OF_CURRENCIES[i];
-                const rateToRUB = response?.data?.Valute[ORDERED_LIST_OF_CURRENCIES[i]]?.Value || 0;
-                result.rates.push({ currencyCode, rateToRUB });
+                const rateToRUB = Math.round(((response?.data?.Valute[ORDERED_LIST_OF_CURRENCIES[i]]?.Value || 1)
+                    / (response?.data?.Valute[ORDERED_LIST_OF_CURRENCIES[i]]?.Nominal || 1) + Number.EPSILON) * 10000) / 10000;
+                result.rates.push({
+                    currencyCode,
+                    rateToRUB,
+                    searchString: '',
+                    searchNumber: 0,
+                });
             }
         }
     } catch (error) {
-        console.error(error);
+        console.error('@hitCbrAPI() ', error);
+        result.requestError = 'Error @hitCbrAPI() ' + String(error);
+        return result;
     }
-    //console.log(result);
     return result;
 }
 
-export async function hitAPI(endpoint: TEndpoint): Promise<{ date: string, rates: IRate[] }> {
-    const result = { date: '', rates: []};
+export async function hitMoexAPI(): Promise<{ date: string; rates: IRate[], requestError: string }> {
+    const result: { date: string; rates: IRate[]; requestError: string } = { date: '', rates: [], requestError: '' };
+    try {
+        const response = await axios.get(
+            'https://iss.moex.com/iss/statistics/engines/futures/markets/indicativerates/securities.json',
+        );
+        result.date = `${response?.data?.securities?.data[0][0]}T${response?.data?.securities?.data[0][1]}+03:00`;
+        const receivedData: [string, string, string, number][] = response?.data?.securities?.data;
+        const receivedCodes = receivedData.map(
+            (element) => element[2].split('/')[0],
+        );
+        const receivedRates = receivedData.map((element) => element[3]);
+        for (let i = 0; i < ORDERED_LIST_OF_CURRENCIES.length; i += 1) {
+            const indexOfCurrency = receivedCodes.indexOf(
+                ORDERED_LIST_OF_CURRENCIES[i],
+            );
+            if (indexOfCurrency !== -1) {
+                result.rates.push({
+                    currencyCode: receivedCodes[indexOfCurrency],
+                    rateToRUB: receivedRates[indexOfCurrency],
+                    searchString: '',
+                    searchNumber: 0,
+                });
+            }
+        }
+    } catch (error) {
+        console.error('@hitMoexAPI() ', error);
+        result.requestError = 'Error @hitMoexAPI() ' + String(error);
+        return result;
+    }
+    return result;
+}
+
+export async function hitAPI(
+    endpoint: TEndpoint,
+): Promise<{ date: string; rates: IRate[]; requestError: string }> {
+    const result: { date: string; rates: IRate[]; requestError: string } = { date: '', rates: [], requestError: '@hitAPI Wrong Endpoint'};
     if (endpoint === 'cbr') {
         return hitCbrAPI();
+    }
+    if (endpoint === 'moex') {
+        return hitMoexAPI();
     }
     return result;
 }

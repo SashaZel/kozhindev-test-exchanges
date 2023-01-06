@@ -1,0 +1,66 @@
+.row {
+    margin-top: 1rem;
+    padding: 8px;
+    background-color: #30382E;
+    color: #FB2B2F;
+    border-radius: 8px;
+
+    &__left {
+        display: flex;
+    }
+
+    &__number {
+        margin-right: 8px;
+        color: #FF9192;
+    }
+
+    &__code {
+        margin-right: 8px;
+        color: #78D2D8;
+        font-weight: 600;
+    }
+
+    &__name {
+        color: #78D2D8;
+    }
+
+    &__rates {
+        margin-left: auto;
+        margin-right: 0;
+        width: 80%;
+        display: flex;
+    }
+
+    &__substForColumnName {
+        margin-right: 8px;
+        display: block;
+        width: 60%;
+        color: #475346;
+    }
+
+    &__rateValue {
+        display: block;
+        width: 40%;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+
+    .row {
+        display: flex;
+        justify-content: space-between;
+
+        &__right {
+            display: flex;
+        }
+
+        &__substForColumnName {
+            display: none;
+        }
+
+        &__rateValue {
+            width: 6rem;
+        }
+    }
+
+}

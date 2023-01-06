@@ -1,8 +1,168 @@
-.container {
+.table {
     margin: 0 auto;
-    background-color: aquamarine;
-    .currencyTable__row {
-        display: flex;
-        justify-content: space-between;
+    background-color: #FB2B2F;
+
+    &__container {
+        margin: 1rem auto;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        width: 90%;
+        max-width: 1280px;
+    }
+
+    &__columnHeaders {
+        display: none;
+    }
+
+}
+
+.search {
+
+    &__title {
+        margin-top: 8px;
+        color: #FF9192;
+        font-size: 1rem;
+        font-weight: 600;
+    }
+    
+    &__input {
+        padding: 8px;
+        background-color: #30382E;
+        color: #78D2D8;
+        border: 2px solid #30382E;
+        border-radius: 8px;
+        font-size: 1rem;
     }
 }
+
+.searchFailed {
+    margin-top: 8px;
+    color: #FF9192;
+}
+
+.moreButton {
+    display: block;
+    margin-top: 8px;
+    margin-left: auto;
+    margin-right: 0;
+    padding: 8px 16px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    background-color: #78D2D8;
+    border: 2px solid #222;
+    border-radius: 0.7rem;
+}
+
+.moreButton:hover {
+    background-color: #78d2d8b9;
+    border: 2px solid #555;
+}
+
+.moreButton:focus {
+    border: 2px solid #555;
+}
+
+.spinner {
+    width: 90%;
+    height: 14rem;
+    position: absolute;
+    display: grid;
+    place-items: center;
+    background-color: #fb2b2ed5;
+}
+
+.spinnerDisabled {
+    display: none;
+}
+
+@media screen and (min-width: 768px) {
+   .spinner {
+       height: 11rem;
+   }
+}
+
+@media screen and (min-width: 1024px) {
+
+    .table {
+
+        &__searchAndSortingContainer {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        &__columnHeaders {
+            margin-top: 1rem;
+            padding: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        &__leftHeaders {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        &__leftHeader {
+            margin-right: 1rem;
+            color: #FF9192;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        &__rightHeaders {
+            display: flex;
+        }
+
+        &__rightHeader {
+            width: 6rem;
+            color: #FF9192;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+    }
+
+    .moreButton {
+        padding: 8px 24px;
+    }
+
+}
+
+/* ========== Loading spinner ======== */
+
+.ldsFacebook {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+  }
+  .ldsFacebook div {
+    display: inline-block;
+    position: absolute;
+    left: 8px;
+    width: 16px;
+    background: #78D2D8;
+    animation: ldsFacebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+  }
+  .ldsFacebook div:nth-child(1) {
+    left: 8px;
+    animation-delay: -0.24s;
+  }
+  .ldsFacebook div:nth-child(2) {
+    left: 32px;
+    animation-delay: -0.12s;
+  }
+  .ldsFacebook div:nth-child(3) {
+    left: 56px;
+    animation-delay: 0;
+  }
+  @keyframes ldsFacebook {
+    0% {
+      top: 8px;
+      height: 64px;
+    }
+    50%, 100% {
+      top: 24px;
+      height: 32px;
+    }
+  }

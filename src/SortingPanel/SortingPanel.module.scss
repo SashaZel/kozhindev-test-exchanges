@@ -1,0 +1,30 @@
+.sorting {
+
+    &__title {
+        margin-top: 8px;
+        color: #FF9192;
+        font-size: 1rem;
+        font-weight: 600;
+    }
+
+    &__button {
+        margin-top: 4px;
+        margin-right: 4px;
+        padding: 8px;
+        background-color: #FB2B2F;
+        cursor: pointer;
+        border: 2px solid #222;
+        border-radius: 8px;
+        color: #222;
+        font-weight: 600;
+    }
+
+    &__button:hover {
+        background-color: #78d2d8b9;
+        color: #555;
+    }
+
+    &__button_active {
+        background-color: #78D2D8;
+    }
+}

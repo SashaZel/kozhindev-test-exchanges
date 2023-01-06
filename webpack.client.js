@@ -2,13 +2,12 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    mode: 'development',
+    mode: 'production',
     entry: './src/main.tsx',
     output: {
         path: path.join(__dirname, '/dist'),
         filename: 'bundle.js',
     },
-    devtool: 'inline-source-map',
     devServer: {
         static: './dist',
     },
