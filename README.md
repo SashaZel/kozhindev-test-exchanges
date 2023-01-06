@@ -20,7 +20,7 @@ Features:
 - saving chosen currencies in localStorage.
 
 Tech stack features:
-- Webpack (custom setting from scratch)
+- Webpack with Babel (custom setting from scratch)
 - ESLint (KozhinDev config https://github.com/steroids/eslint-config)
 - React 18
 - Redux RTX with async thunks.
@@ -32,18 +32,25 @@ Tech stack features:
 - original art of funny Hedgehog created in Inkscape.
 
 Feel free to pull and try the project.
-For development mode run 'npm run dev'
-For development build run 'npm run build' (target './dist' folder)
-For minified production build run 'npm run prod-build' (target './dist' folder)
+- For development mode run 'npm run dev'
+- For development build run 'npm run build' (target './dist' folder)
+- For minified production build run 'npm run prod-build' (target './dist' folder)
 
 TODO:
+- re-organize code for company convention
 - leverage down the bundle size
+- add uniqe bundle script name feature
 - add re-render optimization
-- brush up UI
-- add storybook presentation
+- add animation for smooth UI
+- add asc/desc sorting feature
+- brush up UI and design, add icons
+- add Storybook presentations
 - add more currencies sources
-- add tests
+- add tests (?)
 - add internationalization
+- add access to history of currencies rates
+- add history visualization
+- add rates compare feature
 
 The app creation takes about 27 hours of work.
 
